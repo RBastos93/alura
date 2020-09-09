@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PhotoService } from './photos/photo/photo.service';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +6,4 @@ import { PhotoService } from './photos/photo/photo.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  photos: Array<any> = [];
-
-  constructor(photoService: PhotoService) {
-    photoService.listFromUser('flavio').subscribe(photos => this.photos = photos);
-  }
 }
