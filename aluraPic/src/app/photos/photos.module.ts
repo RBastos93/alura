@@ -14,7 +14,7 @@ import { filterByDescription } from './photo-list/filter-by-description.pipe';
         PhotoListComponent,
         PhotoFormComponent,
         PhotosComponent,
-        filterByDescription
+        filterByDescription,
     ],
     imports: [
         HttpClientModule,
