@@ -5,10 +5,10 @@ import { PhotoListComponent } from './photos/photo-list/photo-list.component';
 import { PhotoComponent } from './photos/photo/photo.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
-import { SignInComponent } from './home/signin/signin.component';
 
 const routes: Routes = [
-    { path: '', component: SignInComponent },
+    { path: '', pathMatch: 'full', redirectTo: 'home' },
+    { path: 'home', loadChildren: './home/home.module#HomeModule' },
     { path: 'user/:userName', component: PhotoListComponent, resolve: { photos: PhotoListResolver } },
     { path: 'p/add', component: PhotoComponent },
     { path: '**', component: NotFoundComponent },
