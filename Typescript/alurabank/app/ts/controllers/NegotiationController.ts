@@ -10,7 +10,7 @@ class NegotiationController {
         this._inputDate = <HTMLInputElement>document.querySelector('#date');
         this._inputAmount = <HTMLInputElement>document.querySelector('#amount');
         this._inputValue = <HTMLInputElement>document.querySelector('#value');
-        this._negotiationsView.update();
+        this._negotiationsView.update(this._negotiations);
     }
 
     add(event: Event) {
@@ -23,8 +23,6 @@ class NegotiationController {
 
         this._negotiations.add(negotiation);
 
-        this._negotiations.getArray().forEach(negotiation => {
-            console.log(negotiation);
-        });
+        this._negotiationsView.update(this._negotiations);
     }
 }
