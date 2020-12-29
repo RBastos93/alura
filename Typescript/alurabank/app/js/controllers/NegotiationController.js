@@ -2,6 +2,7 @@ class NegotiationController {
     constructor() {
         this._negotiations = new Negotiations();
         this._negotiationsView = new NegotiationsView('#negotiationsView');
+        this._messageView = new MessageView('#messageView');
         this._inputDate = document.querySelector('#date');
         this._inputAmount = document.querySelector('#amount');
         this._inputValue = document.querySelector('#value');
@@ -12,5 +13,6 @@ class NegotiationController {
         event.preventDefault();
         this._negotiations.add(negotiation);
         this._negotiationsView.update(this._negotiations);
+        this._messageView.update('Negotiation added successfully');
     }
 }
