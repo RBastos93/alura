@@ -1,6 +1,6 @@
-import { Negotiation, Printable } from './index';
+import { Negotiation, Printable, Comparable } from './index';
 
-export class Negotiations implements Printable {
+export class Negotiations implements Printable, Comparable<Negotiations> {
 
     private _negotiations: Array<Negotiation> | Negotiation[] = [];
 
@@ -14,5 +14,9 @@ export class Negotiations implements Printable {
 
     forText(): void {
         console.log(JSON.stringify(this._negotiations))
+    }
+
+    isEquals(negotiations: Negotiations): boolean {
+        return JSON.stringify(this._negotiations) === JSON.stringify(negotiations.getArray());
     }
 }

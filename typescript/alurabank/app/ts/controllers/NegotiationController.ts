@@ -54,7 +54,10 @@ export class NegotiationController {
                 throw new Error(res.statusText);
             })
             .then(data => {
-                data.forEach(negotiation => this._negotiations.add(negotiation));
+                const getNegotiations = this._negotiations.getArray();
+
+                data.filter(negotiation => !getNegotiations.some(item => negotiation.isEquals(item)))
+                    .forEach(negotiation => this._negotiations.add(negotiation));
 
                 this._negotiationsView.update(this._negotiations);
             })
