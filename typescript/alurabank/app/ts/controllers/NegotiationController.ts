@@ -1,6 +1,6 @@
 import { NegotiationsView, MessageView } from './../views/index';
 import { Negotiations, Negotiation } from './../models/index';
-import { data } from 'jquery';
+import { showRuntime } from './../helpers/decorators/index';
 
 export class NegotiationController {
 
@@ -18,12 +18,13 @@ export class NegotiationController {
         this._negotiationsView.update(this._negotiations);
     }
 
+    @showRuntime(true)
     add(event: Event) {
         let date: Date = new Date(this._inputDate.val().replace(/-/g, ','));
 
         event.preventDefault();
 
-        if (this._itsBusinessDay(date)) {
+        if (!this._itsBusinessDay(date)) {
             this._messageView.update('only business days trading, please!');
             return;
         }

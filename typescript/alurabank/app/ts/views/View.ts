@@ -1,3 +1,5 @@
+import { showRuntime } from "../helpers/decorators/index";
+
 export abstract class View<T> {
 
     private _element: JQuery;
@@ -6,6 +8,7 @@ export abstract class View<T> {
         this._element = $(selector);
     }
 
+    @showRuntime()
     update(model: T): void {
         let template = this.template(model);
 
