@@ -1,5 +1,6 @@
 import { NegotiationsView, MessageView } from './../views/index';
 import { Negotiations, Negotiation } from './../models/index';
+import { data } from 'jquery';
 
 export class NegotiationController {
 
@@ -18,16 +19,37 @@ export class NegotiationController {
     }
 
     add(event: Event) {
-        const negotiation = new Negotiation(
-            new Date(this._inputDate.val().replace(/-/g, ',')),
-            parseInt(this._inputAmount.val()),
-            parseFloat(this._inputValue.val()));
+        let date: Date = new Date(this._inputDate.val().replace(/-/g, ','));
 
         event.preventDefault();
+
+        if (this._itsBusinessDay(date)) {
+            this._messageView.update('only business days trading, please!');
+            return;
+        }
+
+        const negotiation = new Negotiation(
+            date,
+            parseInt(this._inputAmount.val()),
+            parseFloat(this._inputValue.val()));
 
         this._negotiations.add(negotiation);
 
         this._negotiationsView.update(this._negotiations);
         this._messageView.update('Negotiation added successfully');
     }
+
+    private _itsBusinessDay(date: Date): boolean {
+        return date.getDay() !== DayWeek.sunday && date.getDay() !== DayWeek.saturday;
+    }
+}
+
+enum DayWeek {
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday
 }
