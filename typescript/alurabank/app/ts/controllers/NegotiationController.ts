@@ -1,7 +1,8 @@
 import { NegotiationsView, MessageView } from './../views/index';
 import { Negotiations, Negotiation } from './../models/index';
 import { domInject, throttle } from '../helpers/decorators/index';
-import { HandlerFunction, NegotiationService } from '../services/index';
+import { NegotiationService } from '../services/index';
+import { prints } from './../helpers/Utils';
 
 export class NegotiationController {
 
@@ -21,21 +22,22 @@ export class NegotiationController {
     }
 
     @throttle(500)
-    add() {
+    add(): void {
         let date: Date = new Date(this._inputDate.val().replace(/-/g, ','));
 
         if (!this._itsBusinessDay(date)) {
-            this._messageView.update('only business days trading, please!');
-            return;
+            return this._messageView.update('only business days trading, please!');
         }
 
         const negotiation = new Negotiation(
             date,
             parseInt(this._inputAmount.val()),
-            parseFloat(this._inputValue.val()));
+            parseFloat(this._inputValue.val())
+        );
+
+        prints(negotiation);
 
         this._negotiations.add(negotiation);
-
         this._negotiationsView.update(this._negotiations);
         this._messageView.update('Negotiation added successfully');
     }
@@ -45,15 +47,13 @@ export class NegotiationController {
     }
 
     @throttle(500)
-    importData() {
-        const isOk: HandlerFunction = (res: Response) => {
-            if (res.ok) return res;
-
-            throw new Error(res.statusText);
-        }
-
+    importData(): void {
         this._negotiationService
-            .getNegotiations(isOk)
+            .getNegotiations(res => {
+                if (res.ok) return res;
+
+                throw new Error(res.statusText);
+            })
             .then(data => {
                 data.forEach(negotiation => this._negotiations.add(negotiation));
 

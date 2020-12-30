@@ -3,10 +3,7 @@ export function domInject(selector: string) {
         let element: JQuery;
 
         const getter = function() {
-            if (!element) {
-                element = $(selector);
-                console.log(element);
-            };
+            if (!element) element = $(selector);
 
             return element;
         }

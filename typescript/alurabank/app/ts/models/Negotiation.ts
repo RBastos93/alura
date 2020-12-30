@@ -5,4 +5,13 @@ export class Negotiation {
     get volume(): number {
         return this.amount * this.value;
     }
+
+    forText(): void {
+        console.log(`
+            Date: ${this.date},
+            Amount: ${this.amount},
+            Value: ${this.value},
+            Volume: ${this.volume}
+        `);
+    }
 }
