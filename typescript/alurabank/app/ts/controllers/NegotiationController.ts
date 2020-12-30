@@ -46,24 +46,24 @@ export class NegotiationController {
     }
 
     @throttle(500)
-    importData(): void {
-        this._negotiationService
-            .getNegotiations(res => {
-                if (res.ok) return res;
+    async importData(): Promise<void> {
+        try {
+            const data = await this._negotiationService
+                .getNegotiations(res => {
+                    if (res.ok) return res;
 
-                throw new Error(res.statusText);
-            })
-            .then(data => {
-                const getNegotiations = this._negotiations.getArray();
+                    throw new Error(res.statusText);
+                });
 
-                data.filter(negotiation => !getNegotiations.some(item => negotiation.isEquals(item)))
-                    .forEach(negotiation => this._negotiations.add(negotiation));
+            const getNegotiations = this._negotiations.getArray();
 
-                this._negotiationsView.update(this._negotiations);
-            })
-            .catch(error => {
-                this._messageView.update(error);
-            });
+            data.filter(negotiation => !getNegotiations.some(item => negotiation.isEquals(item)))
+                .forEach(negotiation => this._negotiations.add(negotiation));
+
+            this._negotiationsView.update(this._negotiations);
+        } catch (error) {
+            this._messageView.update(error.message);
+        }
     }
 }
 
