@@ -1,6 +1,6 @@
 import { Negotiation, Printable } from './index';
 
-export class Negotiations extends Printable {
+export class Negotiations implements Printable {
 
     private _negotiations: Array<Negotiation> | Negotiation[] = [];
 
