@@ -1,5 +1,5 @@
-import { Negotiation } from "../models/index";
+import { Printable } from "../models/index";
 
-export function prints(...negotiations: Negotiation[]) {
-    negotiations.forEach(negotiation => negotiation.forText());
+export function prints(...objects: Printable[]) {
+    objects.forEach(object => object.forText());
 }

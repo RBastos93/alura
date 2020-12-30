@@ -1,6 +1,6 @@
-import { Negotiation } from './index';
+import { Negotiation, Printable } from './index';
 
-export class Negotiations {
+export class Negotiations extends Printable {
 
     private _negotiations: Array<Negotiation> | Negotiation[] = [];
 
@@ -10,5 +10,9 @@ export class Negotiations {
 
     getArray(): Negotiation[] {
         return ([] as Negotiation[]).concat(this._negotiations);
+    }
+
+    forText(): void {
+        console.log(JSON.stringify(this._negotiations))
     }
 }
