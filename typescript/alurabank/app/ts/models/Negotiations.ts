@@ -1,6 +1,6 @@
-import { Negotiation, Printable, Comparable } from './index';
+import { Negotiation, MyObject } from './index';
 
-export class Negotiations implements Printable, Comparable<Negotiations> {
+export class Negotiations implements MyObject<Negotiations> {
 
     private _negotiations: Array<Negotiation> | Negotiation[] = [];
 
