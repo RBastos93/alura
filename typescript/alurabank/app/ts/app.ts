@@ -1,4 +1,4 @@
-import { NegotiationController } from './controllers/NegotiationController';
+import { NegotiationController } from './controllers/index';
 
 const controller = new NegotiationController();
 
