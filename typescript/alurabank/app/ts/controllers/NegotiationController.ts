@@ -1,6 +1,7 @@
 import { NegotiationsView, MessageView } from './../views/index';
 import { Negotiations, Negotiation } from './../models/index';
-import { domInject } from '../helpers/decorators/index';
+import { domInject, throttle } from '../helpers/decorators/index';
+import { HandlerFunction, NegotiationService } from '../services/index';
 
 export class NegotiationController {
 
@@ -13,15 +14,15 @@ export class NegotiationController {
     private _negotiations = new Negotiations();
     private _negotiationsView = new NegotiationsView('#negotiationsView');
     private _messageView = new MessageView('#messageView');
+    private _negotiationService = new NegotiationService();
 
     constructor() {
         this._negotiationsView.update(this._negotiations);
     }
 
-    add(event: Event) {
+    @throttle(500)
+    add() {
         let date: Date = new Date(this._inputDate.val().replace(/-/g, ','));
-
-        event.preventDefault();
 
         if (!this._itsBusinessDay(date)) {
             this._messageView.update('only business days trading, please!');
@@ -43,25 +44,22 @@ export class NegotiationController {
         return date.getDay() !== DayWeek.sunday && date.getDay() !== DayWeek.saturday;
     }
 
+    @throttle(500)
     importData() {
-        function isOk(res: Response) {
-            if (res.ok) {
-                return res;
-            } else {
-                throw new Error(res.statusText);
-            }
+        const isOk: HandlerFunction = (res: Response) => {
+            if (res.ok) return res;
+
+            throw new Error(res.statusText);
         }
 
-        fetch('http://localhost:4200/dados')
-            .then(res => isOk(res))
-            .then(res => res.json())
-            .then((data: Array<any>) => {
-                data.map(item => new Negotiation(new Date(), item.vezes, item.montante))
-                .forEach(negotiation => this._negotiations.add(negotiation));
+        this._negotiationService
+            .getNegotiations(isOk)
+            .then(data => {
+                data.forEach(negotiation => this._negotiations.add(negotiation));
 
                 this._negotiationsView.update(this._negotiations);
             })
-            .catch(error => console.log(error.message))
+            .catch(error => console.log(error.message));
     }
 }
 
