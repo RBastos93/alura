@@ -61,7 +61,9 @@ export class NegotiationController {
 
                 this._negotiationsView.update(this._negotiations);
             })
-            .catch(error => console.log(error.message));
+            .catch(error => {
+                this._messageView.update(error);
+            });
     }
 }
 

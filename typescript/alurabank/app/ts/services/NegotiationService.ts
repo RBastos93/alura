@@ -6,7 +6,11 @@ export class NegotiationService {
         return fetch('http://localhost:4200/dados')
             .then(res => handler(res))
             .then(res => res.json())
-            .then((data: Array<PartialNegotiation>) => data.map(item => new Negotiation(new Date(), item.vezes, item.montante)));
+            .then((data: Array<PartialNegotiation>) => data.map(item => new Negotiation(new Date(), item.vezes, item.montante)))
+            .catch(error => {
+                console.log(error.message);
+                throw new Error('Negotiations could not be imported');
+            });
     }
 }
 
