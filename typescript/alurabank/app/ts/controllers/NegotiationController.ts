@@ -1,24 +1,23 @@
 import { NegotiationsView, MessageView } from './../views/index';
 import { Negotiations, Negotiation } from './../models/index';
-import { showRuntime } from './../helpers/decorators/index';
+import { domInject } from '../helpers/decorators/index';
 
 export class NegotiationController {
 
+    @domInject('#date')
     private _inputDate: JQuery;
+    @domInject('#amount')
     private _inputAmount: JQuery;
+    @domInject('#value')
     private _inputValue: JQuery;
     private _negotiations = new Negotiations();
     private _negotiationsView = new NegotiationsView('#negotiationsView');
     private _messageView = new MessageView('#messageView');
 
     constructor() {
-        this._inputDate = $('#date');
-        this._inputAmount = $('#amount');
-        this._inputValue = $('#value');
         this._negotiationsView.update(this._negotiations);
     }
 
-    @showRuntime(true)
     add(event: Event) {
         let date: Date = new Date(this._inputDate.val().replace(/-/g, ','));
 
