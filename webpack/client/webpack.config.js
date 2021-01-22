@@ -3,8 +3,19 @@ const babiliPlugin = require('babili-webpack-plugin');
 const extractTextPluginIn = require('extract-text-webpack-plugin');
 const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack');
+const htmlWebpackPlugin = require('html-webpack-plugin');
 
 let plugins = [
+    new htmlWebpackPlugin({
+        hash: true,
+        minify: {
+            html5: true,
+            collapseWhitespace: true,
+            removeComments: true
+        },
+        filename: 'index.html',
+        template: `${__dirname}/main.html`
+    }),
     new extractTextPluginIn('style.css'),
     new webpack.ProvidePlugin({
         $: 'jquery/dist/jquery.js',
@@ -37,8 +48,7 @@ module.exports = {
     },
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: 'dist'
+        path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
