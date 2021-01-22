@@ -2,9 +2,14 @@ const path = require('path');
 const babiliPlugin = require('babili-webpack-plugin');
 const extractTextPluginIn = require('extract-text-webpack-plugin');
 const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const webpack = require('webpack');
 
 let plugins = [
-    new extractTextPluginIn('style.css')
+    new extractTextPluginIn('style.css'),
+    new webpack.ProvidePlugin({
+        $: 'jquery/dist/jquery.js',
+        jQuery: 'jquery/dist/jquery.js'
+    })
 ];
 
 if (process.env.NODE_ENV === 'production') {
