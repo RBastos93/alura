@@ -8,11 +8,13 @@ headers.set('Content-Type', 'application/json');
 const body = JSON.stringify(negociacao);
 const method = 'POST';
 
-const config = { 
+const url = 'http://localhost:3000';
+
+const config = {
     method,
     headers,
-    body 
+    body
 };
 
-fetch('/negociacoes', config)
+fetch(`${url}/negociacoes`, config)
     .then(() => console.log('Dado enviado com sucesso'));
