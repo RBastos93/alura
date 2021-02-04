@@ -2,7 +2,7 @@ import { HttpService } from '../../util/HttpService.js';
 import { Negociacao } from './Negociacao.js';
 import { ApplicationException } from '../../util/ApplicationException.js';
 
-const url = 'http://localhost:300';
+const url = SERVICE_URL;
 export class NegociacaoService {
 
     constructor() {

@@ -5,6 +5,8 @@ const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 
+let SERVICE_URL = JSON.stringify('http://localhost:3000');
+
 let plugins = [
     new htmlWebpackPlugin({
         hash: true,
@@ -28,6 +30,8 @@ let plugins = [
 ];
 
 if (process.env.NODE_ENV === 'production') {
+    SERVICE_URL = JSON.stringify('http://address-of-api');
+
     plugins.push(new webpack.optimize.ModuleConcatenationPlugin);
     plugins.push(new babiliPlugin());
     plugins.push(new optimizeCssAssetsPlugin({
@@ -40,6 +44,8 @@ if (process.env.NODE_ENV === 'production') {
         canPrint: true
     }))
 }
+
+plugins.push(new webpack.DefinePlugin({ SERVICE_URL }));
 
 module.exports = {
     entry: {

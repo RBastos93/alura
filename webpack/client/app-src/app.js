@@ -12,7 +12,7 @@ headers.set('Content-Type', 'application/json');
 const body = JSON.stringify(negociacao);
 const method = 'POST';
 
-const url = 'http://localhost:3000';
+const url = SERVICE_URL;
 
 const config = {
     method,
